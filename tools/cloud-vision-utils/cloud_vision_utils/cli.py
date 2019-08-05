@@ -22,12 +22,14 @@
 import fire
 
 from cloud_vision_utils import dataset
+from cloud_vision_utils import image
 
 
 def main():
   fire.Fire(dict(
       gen_csv_from_images=dataset.gen_csv_from_images,
       gen_csv_from_annotations=dataset.gen_csv_from_annotations,
+      autorotate=image.autorotate_batch,
   ))
 
 

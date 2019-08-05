@@ -1,6 +1,6 @@
 # python3
 
-# Copyright 2019 Google Inc. All Rights Reserved.
+# Copyright 2019 Google LLC. 
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,13 +24,15 @@ setuptools.setup(
     name='cloud-vision-utils',
     version='0.1',
     description='Utilities for Google Cloud Vision.',
-    url='TBD',
+    url='https://github.com/GoogleCloudPlatform/professional-services/tree/master/tools/cloud-vision-utils',
     author='Carlos Ezequiel',
     author_email='cezequiel@google.com',
     license='Apache License 2.0',
     install_requires=[
         'tensorflow>=1.14',
         'fire>=0.1.3',
+        'piexif>=1.1.3',
+        'Pillow>=6.1.0',
     ],
     packages=['cloud_vision_utils'],
     entry_points={
