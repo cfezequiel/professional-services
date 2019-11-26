@@ -19,7 +19,7 @@
 
 import xml.etree.ElementTree as ET
 
-from tensorflow.io import gfile
+import tensorflow as tf
 
 
 class BoundingBox(object):
@@ -87,7 +87,7 @@ def read_from_pascal(filename: str):
     (image filename, list of `BoundingBox` objects).
   """
 
-  with gfile.GFile(filename) as f:
+  with tf.io.gfile.GFile(filename) as f:
     tree = ET.parse(f)
 
   root = tree.getroot()

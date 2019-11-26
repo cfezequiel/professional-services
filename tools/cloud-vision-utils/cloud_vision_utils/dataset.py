@@ -22,7 +22,7 @@
 import csv
 import os
 
-from tensorflow.io import gfile
+import tensorflow as tf
 
 from cloud_vision_utils import annotation
 from cloud_vision_utils import constants
@@ -53,9 +53,9 @@ def gen_csv_from_images(
 
   get_label = basename if add_label else lambda _: ''
 
-  with gfile.GFile(os.path.expanduser(output_file), 'w') as f:
+  with tf.io.gfile.GFile(os.path.expanduser(output_file), 'w') as f:
     writer = csv.writer(f, delimiter=',')
-    for topdir, _, files in gfile.walk(os.path.expanduser(input_dir)):
+    for topdir, _, files in tf.io.gfile.walk(os.path.expanduser(input_dir)):
       for f in files:
         if out_path_prefix:
           filepath = os.path.join(out_path_prefix, f)
@@ -86,12 +86,12 @@ def gen_csv_from_annotations(
       to use for all the parsed images.
   """
 
-  if not gfile.exists(input_dir):
+  if not tf.io.gfile.exists(input_dir):
     raise ValueError('Input directory not found.')
 
-  with gfile.GFile(os.path.expanduser(output_file), 'w') as outf:
+  with tf.io.gfile.GFile(os.path.expanduser(output_file), 'w') as outf:
     writer = csv.writer(outf, delimiter=',')
-    for filename in gfile.listdir(os.path.expanduser(input_dir)):
+    for filename in tf.io.gfile.listdir(os.path.expanduser(input_dir)):
       filepath = os.path.join(input_dir, filename)
       image_filename, boxes = annotation.read(filepath)
       out_image_filename = os.path.join(out_path_prefix, image_filename)

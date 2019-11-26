@@ -7,13 +7,13 @@ import os
 
 import piexif
 from PIL import Image
-from tensorflow.io import gfile
+import tensorflow as tf
 
 ROTATE_VALUES = {3: 180, 6: 270, 8: 90}
 
 
 def save(filename: str, image: Image, exif: str):
-  with gfile.GFile(filename, 'wb') as f:
+  with tf.io.gfile.GFile(filename, 'wb') as f:
     image.save(f, exif=exif)
 
 
@@ -21,7 +21,7 @@ def save(filename: str, image: Image, exif: str):
 def autorotate(filename: str):
   """Rotate PIL Image based on EXIF orientation."""
 
-  with gfile.GFile(filename, 'rb') as f:
+  with tf.io.gfile.GFile(filename, 'rb') as f:
     img = Image.open(io.BytesIO(f.read()))
 
   if 'exif' in img.info:
@@ -51,15 +51,15 @@ def autorotate(filename: str):
       save(filename, img, exif=exif_bytes)
 
 
+# pylint: disable=broad-except
 def autorotate_batch(input_dir: str):
   """Autorotate images in a nested directory structure."""
 
-  for topdir, _, files in gfile.walk(input_dir):
+  for topdir, _, files in tf.io.gfile.walk(input_dir):
     for f in files:
       logging.info('Processing %s', f)
       filename = os.path.join(topdir, f)
       try:
         autorotate(filename)
       except Exception as e:
-        logging.warning('autorotate failed for {}. Reason: {}'
-                        .format(f, str(e)))
+        logging.warning('autorotate failed for %s. Reason: %s', f, str(e))
